@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .line {
+            width: auto;
+            height: auto;
+        }
+
+        .key {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid black;
+            display: inline-block;
+        }
+
+        .margin {
+            width: 25px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 0px solid black;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        let keys = [
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+            ['-', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+            ['-', '-', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+            ['-', '-', '-', 'z', 'x', 'c', 'v', 'b', 'n', 'm']
+        ];
+        let root = document.getElementById('root');
+        for (let i = 0; i < keys.length; i++) {
+            let line = document.createElement('div');
+            line.className = 'line';
+            for (let j = 0; j < keys[i].length; j++) {
+                if (keys[i][j] == '-') {
+                    let margin = document.createElement('div');
+                    margin.className = 'margin';
+                    margin.innerHTML = ' ';
+                    line.appendChild(margin);
+                } else {
+                    let key = document.createElement('div');
+                    key.id = `key-${keys[i][j]}`;
+                    key.className = 'key';
+                    key.innerHTML = keys[i][j];
+                    line.appendChild(key);
+                }
+            }
+            root.appendChild(line);
+
+        }
+
+    </script>
+</body>
+
+</html>
