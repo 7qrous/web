@@ -169,7 +169,7 @@
             audioElements[key] = audio;
         });
 
-        document.body.addEventListener('keypress', function (e) {
+        document.body.addEventListener('keydown', function (e) {
 
             if (!e.repeat) {
                 const keyDiv = document.getElementById(`key-${e.key}`);
