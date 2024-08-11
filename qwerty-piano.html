@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Keyboard</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .line {
+            display: flex;
+        }
+
+        .key {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid black;
+            background-color: black;
+            color: white;
+            position: relative;
+            transition: background-color 0.1s;
+        }
+
+        .black-key {
+            width: 35px;
+            height: 120px;
+            background-color: black;
+            position: absolute;
+            left: 35px;
+            /* Center the black key over the white key */
+            margin-left: -17.5px;
+            /* Adjust to center */
+            z-index: 1;
+            /* Make sure it's on top of the white key */
+            border: 1px solid black;
+            transition: background-color 0.1s;
+        }
+
+        .margin {
+            width: 25px;
+            height: 200px;
+            display: inline-block;
+        }
+
+        /* Target specific keys to change their color to chartreuse */
+        .key:nth-child(2),
+        .key:nth-child(4),
+        .key:nth-child(7),
+        .key:nth-child(9),
+        .key:nth-child(11) {
+            background-color: green !important;
+            /* Change color */
+        }
+    </style>
+    <script>
+        const keyMap = {
+            '1': 16,	// C1
+            '!': 17,	// C#1
+            '2': 18,	// D1
+            '@': 19,	// D#1
+            '3': 20,	// E1
+            '4': 21,	// F1
+            '$': 22,	// F#1
+            '5': 23,	// G1
+            '%': 24,	// G#1
+            '6': 25,	// A1
+            '^': 26,	// A#1
+            '7': 27,	// B1
+            '8': 28,	// C2
+            '*': 29,	// C#2
+            '9': 30,	// D2
+            '(': 31,	// D#2
+            '0': 32,	// E2
+            'q': 33,	// F2
+            'Q': 34,	// F#2
+            'w': 35,	// G2
+            'W': 36,	// G#2
+            'e': 37,	// A2
+            'E': 38,	// A#2
+            'r': 39,	// B2
+            't': 40,	// C3
+            'T': 41,	// C#3
+            'y': 42,	// D3
+            'Y': 43,	// D#3
+            'u': 44,	// E3
+            'i': 45,	// F3
+            'I': 46,	// F#3
+            'o': 47,	// G3
+            'O': 48,	// G#3
+            'p': 49,	// A3
+            'P': 50,	// A#3
+            'a': 51,	// B3
+            's': 52,	// C4
+            'S': 53,	// C#4
+            'd': 54,	// D4
+            'D': 55,	// D#4
+            'f': 56,	// E4
+            'g': 57,	// F4
+            'G': 58,	// F#4
+            'h': 59,	// G4
+            'H': 60,	// G#4
+            'j': 61,	// A4
+            'J': 62,	// A#4
+            'k': 63,	// B4
+            'l': 64,	// C5
+            'L': 65,	// C#5
+            'z': 66,	// D5
+            'Z': 67,	// D#5
+            'x': 68,	// E5
+            'c': 69,	// F5
+            'C': 70,	// F#5
+            'v': 71,	// G5
+            'V': 72,	// G#5
+            'b': 73,	// A5
+            'B': 74,	// A#5
+            'n': 75,	// B5
+            'm': 76,	// C6
+            'N': 77,	// C#6
+        };
+    </script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        const keys = [
+            ['1', '!', '2', '@', '3', '4', '$', '5', '%', '6', '^', '7'],
+            ['8', '*', '9', '(', '0', 'q', 'Q', 'w', 'W', 'e', 'E', 'r'],
+            ['t', 'T', 'y', 'Y', 'u', 'i', 'I', 'o', 'O', 'p', 'P', 'a'],
+            ['s', 'S', 'd', 'D', 'f', 'g', 'G', 'h', 'H', 'j', 'J', 'k'],
+            ['l', 'L', 'z', 'Z', 'x', 'c', 'C', 'v', 'V', 'b', 'B', 'n'],
+            ['m', 'N']
+        ];
+        const root = document.getElementById('root');
+
+        // Create the keyboard layout
+        keys.forEach(line => {
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'line';
+            line.forEach(key => {
+                if (keyMap[key] !== undefined) {
+                    const keyDiv = document.createElement('div');
+                    keyDiv.id = `key-${key}`;
+                    keyDiv.className = 'key';
+                    keyDiv.innerHTML = key;
+                    lineDiv.appendChild(keyDiv);
+
+                    // Create black keys for sharps
+                    if (key.includes('#')) {
+                        const blackKeyDiv = document.createElement('div');
+                        blackKeyDiv.className = 'black-key';
+                        lineDiv.appendChild(blackKeyDiv);
+                    }
+                }
+            });
+            root.appendChild(lineDiv);
+        });
+
+        // Set up audio context and keys
+        const audioElements = {};
+        Object.keys(keyMap).forEach(key => {
+            const audio = new Audio(`/sound/${keyMap[key]}.mp3`);
+            audioElements[key] = audio;
+        });
+
+        document.body.addEventListener('keypress', function (e) {
+
+            if (!e.repeat) {
+                const keyDiv = document.getElementById(`key-${e.key}`);
+                if (keyDiv) {
+                    keyDiv.style.backgroundColor = 'white'; // Highlight key
+                    audioElements[e.key].currentTime = 0; // Reset audio
+                    audioElements[e.key].play();
+                }
+            }
+        });
+
+        document.body.addEventListener('keyup', function (e) {
+            const keyDiv = document.getElementById(`key-${e.key}`);
+            if (keyDiv) {
+                keyDiv.style.backgroundColor = 'black'; // Reset key color
+            }
+        });
+    </script>
+</body>
+
+</html>
