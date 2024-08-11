@@ -165,7 +165,7 @@
         // Set up audio context and keys
         const audioElements = {};
         Object.keys(keyMap).forEach(key => {
-            const audio = new Audio(`/sound/${keyMap[key]}.mp3`);
+            const audio = new Audio(`/sound/${keyMap[key] - 12}.mp3`);
             audioElements[key] = audio;
         });
 
