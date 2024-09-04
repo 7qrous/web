@@ -8,12 +8,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.2/Tone.js">
 
     </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .note {
+            width: 50px;
+            height: 15px;
+            border: 1px solid black;
+            line-height: 15px;
+            text-align: center;
+        }
+
+        #rhythm-track {
+            width: 25%;
+            height: 100%;
+            float: left;
+            position: relative;
+        }
+
+        #root {
+            width: 25%;
+            height: 100%;
+            float: left;
+            border: 1px solid black;
+            overflow-y: scroll;
+            position: relative;
+        }
+
+
+
+        #rhythm-track .note {
+            display: block;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div id="root">
+    <div id="root" tabindex="0">
 
+    </div>
+    <div id="rhythm-track">
     </div>
     <script>
         const synth = new Tone.PolySynth(Tone.Synth).toDestination();
@@ -82,18 +128,7 @@
             'm': 'C7',
             'N': 'Cs7',
         }
-        let keyframes = [
-            { opacity: 1 },
-            { opacity: 0.2 },
-            { opacity: 0 }
-        ]
-        let options = {
-            delay: 0,
-            duration: 250,
-            easing: "ease-in",
-            iterations: 1,
-            fill: "forwards"
-        }
+
         let str = `o [4h] 8 w e [ti] 8 w e [5ry] 9 w e [ryo] 9 w h j [6h] 0 e u s 0 e r [6t] 0 w e [0y] w [euo] 0 [4h] 8 q w t o h 8 [5a] 9 r t y [fl] [dk] [ah] [6of] 0 e r t u s 0 [6ya] 0 e [us] 0 e o [4h] 8 w e t o h s [5a] 9 w r [yiah] r h j [6osh] 0 e r t o 0 w [3ty] t 0 p o [4p] 8 q [wpf] e d p [5i] 9 r t y i u s [6a] 0 [tp] e [tu] y [4qwet] 8 q e t [8s] [qa] [es] [5d] 9 w t y r o r [6of] 0 [eg] [yof] [uo] [od] t [ys] 6 0 e y [5u] 8 w t [4eis] 8 w [eis] t s a s [5od] 9 w r y r o r [6sh] 0 e r t o r t y 0 e [rt] 0 [ry] 0 [tu] [4e] 8 q w e [qp] [ta] [qs] [5d] 9 w r y o w o [6f] 0 [eh] j t d s 6 0 [eus] 0 [5ya] 9 [wus] 9 [4tip] 8 q [ips] 2 6 [9pf] [5oad] 9 w r y s a [9s] [6ya] e [tup] r t o [oad] s [EPsh] J h D [YPod] P o s [EPsh] J h D d [YPo] P o [yis] d [YDts] d D [ro] D g J [EYohz] Z [Yeish] g D [qetg] [Di] s [9et] d f g 5 [oah] 9 w e r [W3t] 0 W y 0 [uo] [4osh] 8 q e [tosh] [qo] [eh] [qo] [5oah] 9 w r y a h [yj] [8h] w t [yo] [ush] w t [7o] [6uos] 0 e t [uio] t [ro] t [4osh] 8 w e t o [qs] [9h] [O7f] 0 W t [Oyu] [fl] [dk] [ah] [6of] 0 e o [tpas] u t [P5dg] 9 [Pwh] j [Ph] 8 o [4oh] 8 q e t o [wh] [qo] [5a] 9 w r y r [oh] [aj] [6sh] 0 e o [ts] u [td] [3adf] 7 0 r y u o [4ip] 8 q [psf] 2 6 9 [ipd] 5 9 w 3 [O7us] [WOua] [Ous] [6tua] 0 e [tup] r 0 e [eti] 8 w [7rtu] 3 [6o] [4osh] 8 q e t [io] [th] [ro] [5a] 9 w r y o [ah] j [6sh] 0 e t o t r o [0od] w e [tosf] y o [0s] w [4osh] 8 q w e o [ws] [qh] [O0sf] q W r u [fl] [Wydk] [ah] [etof] 0 [es] r t o s f [5pg] 9 [wdh] [ej] [wdh] 9 5 o [4osh] 8 q e t [wo] [rh] [wo] [5a] 9 w r y [tah] [rj] [6sh] 0 e 0 e [tyu] 0 [3to] 7 0 w [tu] 0 u [4qe] 8 q [eu] 2 6 [9ey] [5wt] 9 w [wr] 3 7 [0t] [6wy] w [ry] [3ru] [qp] f 9 [id] [wa] s a s [6a] 0 e r t p 0 e [6r] t 0 [ry] [6tu] 0 e [ua] 0 [os] [6pd] 0 [eaf] 0 [36dh] 0 [efk] 0 [0ed] h z `;
         let replacedStr = str.replace(/[\[\]]/g, '');
         let array = replacedStr.split(' ');
@@ -104,20 +139,23 @@
             note.innerHTML = array[i];
             root.appendChild(note);
         }
-        document.body.addEventListener('keydown', function (e) {
+        root.addEventListener('keydown', function (e) {
+
             let note = document.getElementsByClassName('note')[0];
             let array = [];
+            let cloneNode = note.cloneNode();
             for (let i = 0; i < note.innerHTML.length; i++) {
-                console.log(note.innerHTML.charAt(i));
-                console.log(keys[note.innerHTML.charAt(i)]);
+                // console.log(note.innerHTML.charAt(i));
+                // console.log(keys[note.innerHTML.charAt(i)]);
                 array.push(keys[note.innerHTML.charAt(i)])
             }
+            let rhythmTrack = document.getElementById('rhythm-track');
+            cloneNode.innerHTML = `{ notes : "${note.innerHTML}", timeStamp : ${e.timeStamp}},`;
+            cloneNode.style = ``;
+            rhythmTrack.appendChild(cloneNode);
             synth.triggerAttackRelease(array, '8n');
-            if (note != null) {
-                note.animate(keyframes, options).finished.then(() => {
-                    note.remove();
-                });
-            };
+            note.remove();
+
         })
     </script>
 </body>
