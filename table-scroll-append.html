@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: content-box;
+            border-collapse: collapse;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #table-container {
+            width: 100%;
+            height: 50%;
+            overflow-x: scroll;
+            overflow-y: scroll;
+            position: absolute;
+            bottom: 30px;
+        }
+
+        #bar {
+            background-color: chartreuse;
+            color: black;
+            width: 100%;
+            height: 30px;
+            bottom: 0;
+            position: absolute;
+        }
+
+        #table {
+            width: 4000px;
+            height: auto;
+            border: 1px solid chartreuse;
+            overflow-x: scroll;
+        }
+
+        tr {
+            float: left;
+        }
+
+
+
+        th,
+        td {
+            font-size: small;
+            font-family: 'Courier New', Courier, monospace;
+            width: 35px;
+            height: 15px;
+            display: block;
+            text-align: left;
+            line-height: 15px;
+            border-collapse: collapse;
+            border: 1px solid darkgreen;
+            color: chartreuse;
+        }
+
+        th {
+            background-color: chartreuse;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bar">
+        <div id="menu-1"> menu 1</div>
+        <div id="menu-1"> menu 2</div>
+    </div>
+    <div id="table-container">
+        <table id="table">
+
+        </table>
+    </div>
+    <script>
+        let table = document.getElementById('table');
+        let first_tr = document.createElement('tr');
+        for (let j = 0; j < 88; j++) {
+            let td = document.createElement('th');
+            td.innerHTML = j;
+            first_tr.appendChild(td);
+        }
+        table.appendChild(first_tr);
+
+        for (let i = 0; i < 100; i++) {
+            let tr = document.createElement('tr');
+            for (let j = 0; j < 88; j++) {
+                let td = document.createElement('td');
+                td.innerHTML = j;
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+
+        }
+    </script>
+</body>
+
+</html>
