@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #282c34;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+.score {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.keys {
+    display: flex;
+    justify-content: center;
+}
+
+.key {
+    background-color: #61dafb;
+    border: 2px solid #21a1f1;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+    transition: background-color 0.1s, transform 0.1s;
+    opacity: 0.3; /* 초기 상태의 투명도 설정 */
+}
+
+.key.active {
+    background-color: #21a1f1;
+    transform: scale(1.1);
+    opacity: 1; /* 활성화 시 투명도 조정 */
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Speech Example</title>
+</head>
+
+<body>
+    <h1>JavaScript TTS Example</h1>
+
+    <textarea id="text" rows="4" cols="50" placeholder="Enter text here"></textarea><br><br>
+
+    <button onclick="speak()">Speak Text</button>
+
+    <script>
+        function speak() {
+            const text = document.getElementById('text').value;
+
+            // Check if the browser supports SpeechSynthesis
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(text);
+
+                // Optional: Set voice and language (default: browser's language)
+                speech.lang = 'ko-KR'; // You can change this to other languages like 'ko-KR' for Korean
+                speech.pitch = 1;      // Default pitch
+                speech.rate = 1;       // Speed of speech, default is 1
+                speech.volume = 1;     // Volume level (0 to 1)
+
+                // Speak the text
+                window.speechSynthesis.speak(speech);
+            } else {
+                alert('Your browser does not support Text-to-Speech.');
+            }
+        }
+    </script>
+</body>
+
+</html>

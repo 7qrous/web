@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .line {
+            width: 1600px;
+            height: 20px;
+            border-bottom: 1px solid gray;
+            line-height: 25px;
+            position: relative;
+        }
+
+        @keyframes move {
+            0% {
+                left: 1600px;
+            }
+
+            100% {
+                left: -20px;
+            }
+        }
+
+        .note {
+            left: -20px;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            animation: move 4s linear none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="file" id="audio-file" accept="audio/*" style="margin: 20px;">
+
+    <div id="line-10" class="line">16</div>
+    <div id="line-10" class="line">15</div>
+    <div id="line-10" class="line">14</div>
+    <div id="line-10" class="line">13</div>
+    <div id="line-10" class="line">12</div>
+    <div id="line-10" class="line">11</div>
+    <div id="line-10" class="line">10</div>
+    <div id="line-9" class="line">9</div>
+    <div id="line-8" class="line">8</div>
+    <div id="line-7" class="line">7</div>
+    <div id="line-6" class="line">6</div>
+    <div id="line-5" class="line">5</div>
+    <div id="line-4" class="line">4</div>
+    <div id="line-3" class="line">3</div>
+    <div id="line-2" class="line">2</div>
+    <div id="line-1" class="line">1</div>
+
+    <script>
+        // 오디오 컨텍스트 생성
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser;
+        let dataArray;
+
+        // 오디오 파일 로드 및 분석
+        async function loadAudioFile(file) {
+            const audioData = await file.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(audioData);
+
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+
+            // 분석기 생성
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 2048;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+            // 소스와 분석기 연결
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+
+            // 재생
+            source.start(0);
+            return source;
+        }
+
+        // 주파수 데이터를 출력하는 함수
+        function outputFrequencyData() {
+            if (analyser) {
+                analyser.getByteFrequencyData(dataArray);
+                const average = dataArray.reduce((sum, value) => sum + value, 0) / dataArray.length;
+                console.log(`Average Frequency: ${average}`);
+            }
+        }
+
+        // 1초마다 주파수 데이터 출력
+        function startOutputtingFrequencyData() {
+            setInterval(outputFrequencyData, 1000);
+        }
+
+        // 파일 입력 이벤트 리스너 추가
+        document.getElementById('audio-file').addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                await loadAudioFile(file);
+                startOutputtingFrequencyData();
+            }
+        });
+    </script>
+</body>
+
+</html>
