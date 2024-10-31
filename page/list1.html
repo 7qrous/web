@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example</title>
+</head>
+
+<body>
+    <div id="listContainer"></div>
+    <div id="pagination"></div>
+
+    <script>
+        let list = [
+            { num: 1, title: 'title - 1', writer: 'writer-1', date: '2024-11-01' },
+            { num: 2, title: 'title - 2', writer: 'writer-1', date: '2024-11-01' },
+            { num: 3, title: 'title - 3', writer: 'writer-1', date: '2024-11-01' },
+            { num: 4, title: 'title - 4', writer: 'writer-1', date: '2024-11-01' },
+            { num: 5, title: 'title - 5', writer: 'writer-1', date: '2024-11-01' },
+            { num: 6, title: 'title - 6', writer: 'writer-1', date: '2024-11-01' },
+            { num: 7, title: 'title - 7', writer: 'writer-1', date: '2024-11-01' },
+            { num: 8, title: 'title - 8', writer: 'writer-1', date: '2024-11-01' },
+            { num: 9, title: 'title - 9', writer: 'writer-1', date: '2024-11-01' },
+            { num: 10, title: 'title - 10', writer: 'writer-1', date: '2024-11-01' },
+            { num: 11, title: 'title - 11', writer: 'writer-1', date: '2024-11-01' },
+            { num: 12, title: 'title - 12', writer: 'writer-1', date: '2024-11-01' },
+            { num: 13, title: 'title - 13', writer: 'writer-1', date: '2024-11-01' },
+            { num: 14, title: 'title - 14', writer: 'writer-1', date: '2024-11-01' },
+            { num: 15, title: 'title - 15', writer: 'writer-1', date: '2024-11-01' },
+            { num: 16, title: 'title - 16', writer: 'writer-1', date: '2024-11-01' },
+            { num: 17, title: 'title - 17', writer: 'writer-1', date: '2024-11-01' },
+            { num: 18, title: 'title - 18', writer: 'writer-1', date: '2024-11-01' },
+            { num: 19, title: 'title - 19', writer: 'writer-1', date: '2024-11-01' },
+            { num: 20, title: 'title - 20', writer: 'writer-1', date: '2024-11-01' },
+            { num: 21, title: 'title - 21', writer: 'writer-1', date: '2024-11-01' },
+            { num: 22, title: 'title - 22', writer: 'writer-1', date: '2024-11-01' },
+            { num: 23, title: 'title - 23', writer: 'writer-1', date: '2024-11-01' },
+        ];
+
+        // 역순 정렬
+        list.sort(function (a, b) {
+            return b.num - a.num;
+        });
+
+        const itemsPerPage = 10; // 페이지당 항목 수
+        let currentPage = 1; // 현재 페이지 번호
+
+        // 페이지별 항목 표시
+        function displayList(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const items = list.slice(start, end);
+
+            const listContainer = document.getElementById('listContainer');
+            listContainer.innerHTML = ''; // 기존 내용 초기화
+
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = `번호: ${item.num}, 제목: ${item.title}, 작성자: ${item.writer}, 날짜: ${item.date}`;
+                listContainer.appendChild(itemDiv);
+            });
+        }
+
+        // 페이지네이션 버튼 생성
+        function setupPagination() {
+            const pageCount = Math.ceil(list.length / itemsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = ''; // 기존 내용 초기화
+
+            for (let i = 1; i <= pageCount; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    displayList(currentPage);
+                });
+                paginationContainer.appendChild(button);
+            }
+        }
+
+        // 초기화
+        displayList(currentPage);
+        setupPagination();
+    </script>
+</body>
+
+</html>

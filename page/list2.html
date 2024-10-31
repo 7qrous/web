@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>날짜</th>
+            </tr>
+        </thead>
+        <tbody id="listContainer"></tbody>
+    </table>
+    <div id="pagination"></div>
+
+    <script>
+        let list = [
+            { num: 1, title: 'title - 1', writer: 'writer-1', date: '2024-11-01' },
+            { num: 2, title: 'title - 2', writer: 'writer-1', date: '2024-11-01' },
+            { num: 3, title: 'title - 3', writer: 'writer-1', date: '2024-11-01' },
+            { num: 4, title: 'title - 4', writer: 'writer-1', date: '2024-11-01' },
+            { num: 5, title: 'title - 5', writer: 'writer-1', date: '2024-11-01' },
+            { num: 6, title: 'title - 6', writer: 'writer-1', date: '2024-11-01' },
+            { num: 7, title: 'title - 7', writer: 'writer-1', date: '2024-11-01' },
+            { num: 8, title: 'title - 8', writer: 'writer-1', date: '2024-11-01' },
+            { num: 9, title: 'title - 9', writer: 'writer-1', date: '2024-11-01' },
+            { num: 10, title: 'title - 10', writer: 'writer-1', date: '2024-11-01' },
+            { num: 11, title: 'title - 11', writer: 'writer-1', date: '2024-11-01' },
+            { num: 12, title: 'title - 12', writer: 'writer-1', date: '2024-11-01' },
+            { num: 13, title: 'title - 13', writer: 'writer-1', date: '2024-11-01' },
+            { num: 14, title: 'title - 14', writer: 'writer-1', date: '2024-11-01' },
+            { num: 15, title: 'title - 15', writer: 'writer-1', date: '2024-11-01' },
+            { num: 16, title: 'title - 16', writer: 'writer-1', date: '2024-11-01' },
+            { num: 17, title: 'title - 17', writer: 'writer-1', date: '2024-11-01' },
+            { num: 18, title: 'title - 18', writer: 'writer-1', date: '2024-11-01' },
+            { num: 19, title: 'title - 19', writer: 'writer-1', date: '2024-11-01' },
+            { num: 20, title: 'title - 20', writer: 'writer-1', date: '2024-11-01' },
+            { num: 21, title: 'title - 21', writer: 'writer-1', date: '2024-11-01' },
+            { num: 22, title: 'title - 22', writer: 'writer-1', date: '2024-11-01' },
+            { num: 23, title: 'title - 23', writer: 'writer-1', date: '2024-11-01' },
+        ];
+
+        // 역순 정렬
+        list.sort(function (a, b) {
+            return b.num - a.num;
+        });
+
+        const itemsPerPage = 10; // 페이지당 항목 수
+        let currentPage = 1; // 현재 페이지 번호
+
+        // 페이지별 항목 표시
+        function displayList(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const items = list.slice(start, end);
+
+            const listContainer = document.getElementById('listContainer');
+            listContainer.innerHTML = ''; // 기존 내용 초기화
+
+            items.forEach(item => {
+                const row = document.createElement('tr');
+
+                // 링크를 추가한 제목 셀
+                const titleCell = document.createElement('td');
+                const titleLink = document.createElement('a');
+                titleLink.href = '#'; // 링크 URL 설정 (실제 링크로 변경 가능)
+                titleLink.textContent = item.title;
+                titleLink.onclick = (event) => {
+                    event.preventDefault(); // 기본 링크 클릭 동작 방지
+                    alert(`You clicked on ${item.title}`); // 클릭 시 실행할 동작
+                };
+                titleCell.appendChild(titleLink);
+
+                // 각 셀에 데이터 추가
+                row.innerHTML = `
+                    <td>${item.num}</td>
+                    ${titleCell.outerHTML}
+                    <td>${item.writer}</td>
+                    <td>${item.date}</td>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+
+        // 페이지네이션 버튼 생성
+        function setupPagination() {
+            const pageCount = Math.ceil(list.length / itemsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = ''; // 기존 내용 초기화
+
+            for (let i = 1; i <= pageCount; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    displayList(currentPage);
+                });
+                paginationContainer.appendChild(button);
+            }
+        }
+
+        // 초기화
+        displayList(currentPage);
+        setupPagination();
+    </script>
+</body>
+
+</html>
