@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.2/Tone.js">
+
+    </script>
+</head>
+
+<body>
+
+    <div id="root">
+
+    </div>
+    <script>
+        const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+        const now = Tone.now();
+        const keys = {
+            '1': 'C1',
+            '!': 'C1s',
+            '1': 'D1',
+            '@': 'D1s',
+            '3': 'E1',
+            '4': 'F1',
+            '$': 'F1s',
+            '5': 'G1',
+            '%': 'G1s',
+            '6': 'A1',
+            '^': 'A1s',
+            '7': 'B1',
+            '8': 'C2',
+            '*': 'C2s',
+            '9': 'D2',
+            '(': 'D2s',
+            '0': 'E2',
+            'q': 'F2',
+            'Q': 'F2s',
+            'w': 'G2',
+            'W': 'G2s',
+            'e': 'A2',
+            'E': 'A2s',
+            'r': 'B2',
+            't': 'C3',
+            'T': 'C3s',
+            'y': 'D3',
+            'Y': 'D3s',
+            'u': 'E3',
+            'i': 'F3',
+            'I': 'F3s',
+            'o': 'G3',
+            'O': 'G3s',
+            'p': 'A3',
+            'P': 'A3s',
+            'a': 'B3',
+            's': 'C4',
+            'S': 'C4s',
+            'd': 'D4',
+            'D': 'D4s',
+            'f': 'E4',
+            'g': 'F4',
+            'G': 'F4s',
+            'h': 'G4',
+            'H': 'G4s',
+            'j': 'A4',
+            'J': 'A4s',
+            'k': 'B4',
+            'l': 'C5',
+            'L': 'C5s',
+            'z': 'D5',
+            'Z': 'D5s',
+            'x': 'E5',
+            'c': 'F5',
+            'C': 'F5s',
+            'v': 'G5',
+            'V': 'G5s',
+            'b': 'A5',
+            'B': 'A5s',
+            'n': 'B5',
+            'm': 'C6',
+            'N': 'C6s',
+        }
+        let str = "[dgjx] z v [odkx] z l [pdhk] l k [osh] h l z [isjx] z v [Huax] [zn] [xm] [pzn] f [kv] h x [Jodgz] [Ptfl] [ishjx] z v [odkx] z l [pdhk] z [odh]f h [ij] sjgx [ypdgl] [uak] [6sfj] 0 e r t o r t 6 0 e r t o t r 6 0 e r t o r t 6 [9ipf] e y [ipd] e [iah] y [woaf] y o [ad] y [ah] o [6yoa] 0 e [yos] 0 e [yoa] [5yo] w [tu] r [qopf] ti [opd] t [ah] it [O0df] ru [dk] r [ufl] [6dk] 0 e [ah] ryo fuoy tyu o [qpf] tid t [ah] i [waf] y o [ad] [ah] o y [6yoa] 0 e [yos]rt [yoa] [5yo] Wt [uo] [qtp]i[opf] ti[O0ys]d f [6ya] 0 [eyo] 0 p [6yoa] [qtp] [if] [of] tio [wp] [yf] a o yo [edh] u [ad] p [sf] u [ad] e up suad [qop]t [pf] i ptf[wa] y hogy [8osf] w t [ydk] [fl] [dk] [ah] y f [qp] ti [pf] opf [wa] yo [adh] o [adg] [60sf] 0 e [tdk] [fl] [wdk] u [ah] of [Qps] t [up] s [qis] t [pd] i [sf] [6yoa] 0 e r [6eiTP] [fx] [9yip] e [ipf] 8 7 6 [5oah] [2ag]f [8od] w [ts] [yd] u [of] o 60ertoso [91] ey pefy [00yd] r [ydk] [esh] up [of] u [Pwid] [QOus] [qosf] to is d [Oqiaf] [OuG] Hjk [edz] u [pfl] [dk] [fl] w [ush] o [sh] [qsj] t [id] s [9ips] e [yipd] [yd] [uf] [30] [030uf] [30] [30pIG] [30] [30aOH] [30] [29sgj] [egjx] [ygjz] i [5wsgj] u [gkx] a [gjz] w W [6edhk] u [pfhl] s [dhk]t [fh] [6e] s [5wsf] o [4qs)] i [gjx] [gjz] u [30kHV] y a [fx] [kn] [Im] [6ekzvn] u [kzv] [ad] [pshlx] [5wgz] [$Qfl] [4qsgj] 8 q [fx]t [dz] q [5wsgj]t [hv] o [gc] [6ehlx] u [pzn] sd [xm] [5wzn] u [olv] [4qjb]t [ifx] [dz] w [sl] q [dk] 0 [29sgj] 6 [9sgj] [sl] [dz] [?7gjx] [30sH] d f h [4qsj] 8 q [tfjx] [ifjz] t [5dj] 9 w [ygx] [ohz] [6dk] 0 e [ydk] u [pfl] [dk] 6 [0sh] e [yf] o [sh] [4qsj] [fjx] i [djz] t [30kV] r 0 [fx] [kn] [Im] [6ekn] 0 [kv] [ahx] o [fi] [J5whz] [8tfjx] w [qifhx] t [djz] i [sjl] [H30fx] [kn] [fx] [dz] [6ekzvn] [kv] [hx] [G9ydl] [9qyip] s y d [00yaf] ds d [6yoa] 0 e [ys] e [ya] [60TP] [9ti] p s d f [OryI] [u] as [6ya] et [up] 0 [eu] 6 0 e t [up] 6 0 t [^Ey] q E y p q y [^yp] q E y [qp] y [6yoa] 0 e [tp] e [ya] [6us] 0 e [of] 0 [ah] e [^dl] q E [sj] q [^Eqsj] [gl] x [60ehz]";
+        let replacedStr = str.replace(/[\[\]]/g, '');
+        let array = replacedStr.split(' ');
+        let root = document.getElementById('root');
+        for (let i = 0; i < array.length; i++) {
+            let note = document.createElement('div');
+            note.className = 'note';
+            note.innerHTML = array[i];
+            root.appendChild(note);
+        }
+        document.body.addEventListener('keypress', function (e) {
+            let note = document.getElementsByClassName('note')[0];
+            let array = [];
+            for (let i = 0; i < note.innerHTML.length; i++) {
+                console.log(note.innerHTML.charAt(i));
+                console.log(keys[note.innerHTML.charAt(i)]);
+                array.push(keys[note.innerHTML.charAt(i)])
+            }
+            synth.triggerAttackRelease(array, '8n');
+            if (note != null) {
+                // note.animate(keyframes, options).finished.then(() => {
+                note.remove();
+                // });
+            };
+        })
+    </script>
+</body>
+
+</html>
