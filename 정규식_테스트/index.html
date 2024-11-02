@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정규식테스트</title>
+</head>
+
+<body>
+    <div id="root">
+        o [4h] 8 w e [ti] 8 w e [5ry] 9 w e [ryo] 9
+    </div>
+    <button onclick="test()">[, ] 정규식으로 지우기 테스트</button>
+    <script>
+        function test() {
+            let root = document.getElementById('root');
+            root.innerHTML = root.innerHTML.replace(/[\[\]]/g, '');
+        }
+    </script>
+</body>
+
+</html>
