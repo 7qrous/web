@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .line {
+            display: block;
+            position: relative;
+            width: 30px;
+            height: 500px;
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+
+        .note {
+            position: absolute;
+            bottom: 500px;
+            background-color: greenyellow;
+            width: 30px;
+            height: 15px;
+            animation: 4s linear down none;
+        }
+
+        @keyframes down {
+            0% {
+                bottom: 500px;
+            }
+
+            100% {
+                bottom: -15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="line" id="line">
+    </div>
+    <script>
+        let test1 = null;
+        function test() {
+            test1 = setInterval(function () {
+                var note = document.createElement('div');
+                note.className = 'note';
+                var line = document.getElementById('line');
+                line.appendChild(note);
+            }, 10)
+        }
+        document.body.addEventListener('keydown', function (e) {
+            if (!e.repeat) {
+                test();
+            }
+        });
+        document.body.addEventListener('keyup', function (e) {
+            var n = document.getElementById('n');
+            clearInterval(test1);
+        });
+    </script>
+</body>
+
+</html>
