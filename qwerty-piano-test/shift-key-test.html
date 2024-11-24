@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        document.addEventListener('keydown', function (event) {
+            let key = event.key;
+
+            if (event.shiftKey) {
+                // Check if the key is a shifted version (like uppercase letters or symbols)
+                if (key.length === 1 && key.toUpperCase() !== key) {
+                    // If it's a lowercase letter and Shift is pressed, convert to uppercase
+                    key = key.toLowerCase();
+                }
+                else if (key === '!' || key === '@' || key === '#' || key === '$' || key === '%' || key === '^' || key === '&' || key === '*' || key === '(' || key === ')') {
+                    // Handle shifted symbols
+                    key = key.toLowerCase();
+                }
+            }
+
+            console.log('Unshifted key value:', key);
+        });
+    </script>
+</body>
+
+</html>

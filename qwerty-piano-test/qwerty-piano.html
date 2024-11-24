@@ -33,11 +33,8 @@
             background-color: black;
             position: absolute;
             left: 35px;
-            /* Center the black key over the white key */
             margin-left: -17.5px;
-            /* Adjust to center */
             z-index: 1;
-            /* Make sure it's on top of the white key */
             border: 1px solid black;
             transition: background-color 0.1s;
         }
@@ -46,16 +43,6 @@
             width: 25px;
             height: 200px;
             display: inline-block;
-        }
-
-        /* Target specific keys to change their color to chartreuse */
-        .key:nth-child(2),
-        .key:nth-child(4),
-        .key:nth-child(7),
-        .key:nth-child(9),
-        .key:nth-child(11) {
-            background-color: green !important;
-            /* Change color */
         }
     </style>
     <script>
@@ -129,29 +116,55 @@
 <body>
     <div id="root"></div>
     <script>
+        const hiddenKeys = ['@', '$', '%', '^', '*', '(', 'Q', 'W', 'E', 'T', 'Y', 'I', 'O', 'P', 'S', 'D', 'G', 'H', 'J', 'L', 'Z', 'C', 'V', 'B', 'N']; // 숨길 키들
         const keys = [
-            ['1', '!', '2', '@', '3', '4', '$', '5', '%', '6', '^', '7'],
-            ['8', '*', '9', '(', '0', 'q', 'Q', 'w', 'W', 'e', 'E', 'r'],
-            ['t', 'T', 'y', 'Y', 'u', 'i', 'I', 'o', 'O', 'p', 'P', 'a'],
-            ['s', 'S', 'd', 'D', 'f', 'g', 'G', 'h', 'H', 'j', 'J', 'k'],
-            ['l', 'L', 'z', 'Z', 'x', 'c', 'C', 'v', 'V', 'b', 'B', 'n'],
-            ['m', 'N']
+            ['1', '2', '@', '3', '4', '$', '5', '%', '6', '^', '7', '8', '*', '9', '(', '0'],
+            ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 't', 'T', 'y', 'Y', 'u', 'i', 'I', 'o', 'O', 'p', 'P'],
+            ['a', 's', 'S', 'd', 'D', 'f', 'g', 'G', 'h', 'H', 'j', 'J', 'k', 'l', 'L'],
+            ['z', 'Z', 'x', 'c', 'C', 'v', 'V', 'b', 'B', 'n', 'M']
         ];
+        const unshiftedKeys = {
+            '@': '2',
+            '$': '4',
+            '%': '5',
+            '^': '6',
+            '*': '8',
+            '(': '9',
+            'Q': 'q',
+            'W': 'w',
+            'E': 'e',
+            'T': 't',
+            'Y': 'y',
+            'I': 'i',
+            'O': 'o',
+            'P': 'p',
+            'S': 's',
+            'D': 'd',
+            'G': 'g',
+            'H': 'h',
+            'J': 'j',
+            'L': 'l',
+            'Z': 'z',
+            'C': 'c',
+            'V': 'v',
+            'B': 'b',
+            'N': 'n'
+        };
         const root = document.getElementById('root');
 
-        // Create the keyboard layout
+        // 키보드 레이아웃 생성
         keys.forEach(line => {
             const lineDiv = document.createElement('div');
             lineDiv.className = 'line';
             line.forEach(key => {
-                if (keyMap[key] !== undefined) {
+                if (keyMap[key] !== undefined && !hiddenKeys.includes(key)) { // 숨기지 않은 키만 생성
                     const keyDiv = document.createElement('div');
                     keyDiv.id = `key-${key}`;
                     keyDiv.className = 'key';
                     keyDiv.innerHTML = key;
                     lineDiv.appendChild(keyDiv);
 
-                    // Create black keys for sharps
+                    // 샵(#) 키가 있을 경우, 검은 키 생성
                     if (key.includes('#')) {
                         const blackKeyDiv = document.createElement('div');
                         blackKeyDiv.className = 'black-key';
@@ -162,30 +175,55 @@
             root.appendChild(lineDiv);
         });
 
-        // Set up audio context and keys
+        // 오디오 설정
         const audioElements = {};
         Object.keys(keyMap).forEach(key => {
-            const audio = new Audio(`sound/${keyMap[key]}.mp3`);
+            const audio = new Audio(`../sound/${keyMap[key]}.mp3`);
             audioElements[key] = audio;
         });
 
+        // 키를 눌렀을 때 이벤트 처리
         document.body.addEventListener('keydown', function (e) {
-
-            if (!e.repeat) {
-                const keyDiv = document.getElementById(`key-${e.key}`);
-                if (keyDiv) {
-                    keyDiv.style.backgroundColor = 'white'; // Highlight key
-                    audioElements[e.key].currentTime = 0; // Reset audio
-                    audioElements[e.key].play();
+            try {
+                if (!e.repeat) {
+                    // Shift 키가 눌렸을 때 변환 처리
+                    if (e.shiftKey) {
+                        audioElements[e.key].currentTime = 0; // 오디오 초기화
+                        audioElements[e.key].play(); // 소리 재생
+                        const keyDiv = document.getElementById(`key-${unshiftedKeys[e.key]}`);
+                        keyDiv.style.backgroundColor = 'chartreuse'; // 키 색 변경
+                    } else {
+                        const keyDiv = document.getElementById(`key-${e.key}`);
+                        keyDiv.style.backgroundColor = 'white'; // 키 색 변경
+                        audioElements[e.key].currentTime = 0; // 오디오 초기화
+                        audioElements[e.key].play(); // 소리 재생
+                    }
                 }
+            } catch (e) {
+                console.log(e);
             }
+
         });
 
+        // 키를 뗐을 때 이벤트 처리
         document.body.addEventListener('keyup', function (e) {
-            const keyDiv = document.getElementById(`key-${e.key}`);
-            if (keyDiv) {
-                keyDiv.style.backgroundColor = 'black'; // Reset key color
+            try {
+                if (e.shiftKey) {
+                    const keyDiv = document.getElementById(`key-${unshiftedKeys[e.key]}`);
+                    if (keyDiv) {
+                        keyDiv.style.backgroundColor = 'black'; // 키 색 원래대로
+                    }
+                } else {
+
+                    const keyDiv = document.getElementById(`key-${e.key}`);
+                    if (keyDiv) {
+                        keyDiv.style.backgroundColor = 'black'; // 키 색 원래대로
+                    }
+                }
+            } catch (e) {
+                console.log(e);
             }
+
         });
     </script>
 </body>
