@@ -191,9 +191,11 @@
                         audioElements[e.key].play(); // 소리 재생
                         const keyDiv = document.getElementById(`key-${unshiftedKeys[e.key]}`);
                         keyDiv.style.backgroundColor = 'chartreuse'; // 키 색 변경
+                        keyDiv.style.color = 'black'; // 키 색 변경
                     } else {
                         const keyDiv = document.getElementById(`key-${e.key}`);
                         keyDiv.style.backgroundColor = 'white'; // 키 색 변경
+                        keyDiv.style.color = 'black'; // 키 색 변경
                         audioElements[e.key].currentTime = 0; // 오디오 초기화
                         audioElements[e.key].play(); // 소리 재생
                     }
@@ -211,12 +213,14 @@
                     const keyDiv = document.getElementById(`key-${unshiftedKeys[e.key]}`);
                     if (keyDiv) {
                         keyDiv.style.backgroundColor = 'black'; // 키 색 원래대로
+                        keyDiv.style.color = 'white';
                     }
                 } else {
 
                     const keyDiv = document.getElementById(`key-${e.key}`);
                     if (keyDiv) {
                         keyDiv.style.backgroundColor = 'black'; // 키 색 원래대로
+                        keyDiv.style.color = 'white';
                     }
                 }
             } catch (e) {
