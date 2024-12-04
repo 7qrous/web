@@ -132,6 +132,8 @@
 
                 Object.keys(notesAtTime).forEach(timeIndex => {
                     const index = parseInt(timeIndex);
+
+                    // 이전 시간과의 간격만큼 빈 공간 추가
                     if (index !== lastTimeIndex + 1) {
                         for (let i = lastTimeIndex + 1; i < index; i++) {
                             const spacerDiv = document.createElement("span");
@@ -140,13 +142,23 @@
                         }
                     }
 
-                    // 해당 시간에 있는 노트 추가
-                    notesAtTime[timeIndex].forEach(note => {
-                        const messageDiv = document.createElement("span");
-                        messageDiv.className = "message";
-                        messageDiv.innerHTML = note;
-                        midiMessagesDiv.appendChild(messageDiv);
-                    });
+                    // 해당 시간에 있는 노트를 그룹화하여 표시
+                    const notes = notesAtTime[timeIndex];
+                    for (let i = 0; i < notes.length; i += 4) {
+                        const groupDiv = document.createElement("div");
+                        groupDiv.style.display = "inline-block";
+                        groupDiv.style.margin = "5px";
+
+                        // 4개의 노트를 하나의 그룹으로 묶어서 추가
+                        for (let j = i; j < i + 4 && j < notes.length; j++) {
+                            const messageDiv = document.createElement("span");
+                            messageDiv.className = "message";
+                            messageDiv.innerHTML = notes[j];
+                            groupDiv.appendChild(messageDiv);
+                        }
+
+                        midiMessagesDiv.appendChild(groupDiv);
+                    }
 
                     // 각 시간 단위마다 줄바꿈
                     const breakElement = document.createElement("br");
@@ -155,6 +167,7 @@
                     lastTimeIndex = index;
                 });
             }
+
         });
     </script>
 </body>
