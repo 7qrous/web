@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Example</title>
+    <style>
+        table,
+        tr,
+        td {
+            border: 1px solid black;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table,
+        tr,
+        td {
+            border-collapse: collapse;
+        }
+
+        .highlight {
+            background-color: lightgray;
+            /* 드롭 영역 강조 색상 */
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td id="td-1" style="background-color:blue;"></td>
+            <td id="td-2"></td>
+            <td id="td-3"></td>
+        </tr>
+        <tr>
+            <td id="td-4"></td>
+            <td id="td-5"></td>
+            <td id="td-6"></td>
+        </tr>
+        <tr>
+            <td id="td-7"></td>
+            <td id="td-8"></td>
+            <td id="td-9"></td>
+        </tr>
+    </table>
+    <script>
+        var draggedElement = null; // 드래그 중인 요소
+        var tdElements = document.getElementsByTagName('td');
+
+        for (let i = 0; i < tdElements.length; i++) {
+            // Drag start event
+            tdElements[i].draggable = true; // 각 td를 드래그 가능하도록 설정
+            tdElements[i].addEventListener('dragstart', function (e) {
+                draggedElement = e.target; // 드래그 중인 요소 저장
+                console.log("Drag started on:", e.target.id);
+                e.target.style.opacity = '0.5';
+            });
+
+            // Drag end event
+            tdElements[i].addEventListener('dragend', function (e) {
+                e.target.style.opacity = '1'; // 드래그 종료 시 투명도 복구
+            });
+
+            // Drag over event
+            tdElements[i].addEventListener('dragover', function (e) {
+                e.preventDefault(); // 기본 동작 방지 (드롭 가능하게 설정)
+                e.target.classList.add('highlight'); // 드롭 가능 영역 강조
+            });
+
+            // Drag leave event
+            tdElements[i].addEventListener('dragleave', function (e) {
+                e.target.classList.remove('highlight'); // 강조 제거
+            });
+
+            // Drop event
+            tdElements[i].addEventListener('drop', function (e) {
+                e.preventDefault(); // 기본 동작 방지
+                e.target.classList.remove('highlight'); // 강조 제거
+
+                if (draggedElement) {
+                    // 드롭된 위치로 드래그된 요소 이동
+                    e.target.style.backgroundColor = draggedElement.style.backgroundColor;
+                    draggedElement.style.backgroundColor = ''; // 기존 위치 초기화
+                    console.log(`Moved ${draggedElement.id} to ${e.target.id}`);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
