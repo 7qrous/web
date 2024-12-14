@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .panel {
+            height: 400px;
+        }
+
+        .line {
+            border: 1px solid black;
+            width: 30px;
+            height: 400px;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            margin-left: 50px;
+        }
+
+        .note {
+            width: 30px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            top: 0px;
+            visibility: hidden;
+        }
+
+        @keyframes down_-3 {
+            0% {
+                top: -300px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes down_-2 {
+            0% {
+                top: -200px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes down_-1 {
+            0% {
+                top: -100px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+
+
+        @keyframes down_0 {
+            0% {
+                top: 0px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes down_1 {
+            0% {
+                top: 100px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes down_2 {
+            0% {
+                top: 200px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes down_3 {
+            0% {
+                top: 300px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 400px;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="panel">
+        <div class="line" id="line-1">
+            0px
+        </div>
+        <div class="line" id="line-2">
+            -100px
+        </div>
+        <div class="line" id="line-3">
+            -200px
+        </div>
+        <div class="line" id="line-4">
+            -300px
+        </div>
+    </div>
+    <script>
+        function createNote(lineNumber, timeStamp, speed) {
+            setTimeout(function () {
+                var line = document.getElementById(`line-${lineNumber}`);
+                var note = document.createElement('div');
+                note.className = 'note';
+                note.style = `animation :none linear 2s down_${speed}`;
+                line.appendChild(note);
+            }, timeStamp);
+        }
+        var track = [
+            { lineNumber: 1, timeStamp: 0 },
+            { lineNumber: 2, timeStamp: 0 },
+            { lineNumber: 3, timeStamp: 0 },
+            { lineNumber: 4, timeStamp: 0 },
+        ];
+        function createTrack() {
+            for (var i = 0; i < track.length; i++) {
+                createNote(track[i].lineNumber, track[i].timeStamp, (-i));
+            }
+        }
+        createTrack();
+    </script>
+</body>
+
+</html>

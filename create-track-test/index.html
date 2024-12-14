@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .panel {
+            display: flex;
+            width: 120px;
+            height: 400px;
+        }
+
+        .line {
+            border: 1px solid black;
+            width: 30px;
+            height: 400px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .note {
+            width: 30px;
+            border: 1px solid black;
+            height: 10px;
+            animation: none linear 2s down;
+            position: absolute;
+            top: -10px;
+        }
+
+        @keyframes down {
+            0% {
+                top: -10px;
+            }
+
+            100% {
+                top: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="panel">
+
+        <div class="line" id="line-1">
+
+        </div>
+        <div class="line" id="line-2">
+
+        </div>
+        <div class="line" id="line-3">
+
+        </div>
+        <div class="line" id="line-4">
+
+        </div>
+    </div>
+    <script>
+        function createNote(lineNumber, timeStamp) {
+            setTimeout(function () {
+                var line = document.getElementById(`line-${lineNumber}`);
+                var note = document.createElement('div');
+                note.className = 'note';
+                line.appendChild(note);
+            }, timeStamp);
+        }
+        var track = [
+            { lineNumber: 1, timeStamp: 0 },
+            { lineNumber: 2, timeStamp: 1000 },
+            { lineNumber: 3, timeStamp: 2000 },
+            { lineNumber: 4, timeStamp: 3000 },
+        ];
+        function createTrack() {
+            for (var i = 0; i < track.length; i++) {
+                createNote(track[i].lineNumber, track[i].timeStamp);
+            }
+        }
+        createTrack();
+    </script>
+</body>
+
+</html>
