@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <style>
+        #root {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.3/Tone.js"></script>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <div>
+        <audio id="music" controls src="BrainFlow.mp3">
+
+        </audio>
+    </div>
+    <script>
+        // 6button - asdjkl
+        const sound = new Tone.Player("sound.mp3").toDestination();
+        let startTime = performance.now();
+        console.log(startTime);
+        document.body.addEventListener('keydown', function (e) {
+            sound.start();
+            let music = document.getElementById('music');
+            if (music.paused) {
+                startTime = e.timeStamp;
+                music.play();
+            }
+            console.log(e.key);
+            root.innerHTML += `{"timeStamp" :${e.timeStamp - startTime}, "key" : "${e.key}"},<br/>`;
+            root.scrollTop = root.scrollHeight;
+        });
+    </script>
+</body>
+
+</html>
