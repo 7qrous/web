@@ -1,0 +1,44 @@
+#event-log {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 200px;
+    overflow: scroll;
+}
+
+#root {
+    height: 600px;
+    border: 1px solid #ccc;
+}
+
+#linePanel {
+    display: flex;
+    height: 600px;
+}
+
+.line {
+    width: 40px;
+    border: 1px solid #eee;
+    position: relative;
+}
+
+@keyframes down {
+    0% {
+        top: 0;
+        visibility: visible;
+    }
+
+    100% {
+        top: 100%;
+        visibility: hidden;
+    }
+}
+
+.note {
+    width: 40px;
+    background-color: cyan;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    animation: down linear 2s;
+    visibility: hidden;
+}
