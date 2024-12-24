@@ -13,7 +13,6 @@
             overflow-y: scroll;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.3/Tone.js"></script>
 </head>
 
 <body>
@@ -27,11 +26,9 @@
     </div>
     <script>
         // 6button - asdjkl
-        const sound = new Tone.Player("sound.mp3").toDestination();
         let startTime = performance.now();
         console.log(startTime);
         document.body.addEventListener('keydown', function (e) {
-            sound.start();
             let music = document.getElementById('music');
             if (music.paused) {
                 startTime = e.timeStamp;

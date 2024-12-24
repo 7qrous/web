@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>midi-test-2</title>
+    <style>
+        .line {
+            width: 30px;
+            height: 400px;
+            border: 1px solid black;
+            position: relative;
+            /* transform: rotateX(180deg); */
+        }
+
+        body {
+            display: flex;
+        }
+
+        @keyframes down {
+            0% {
+                top: 400px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 0px;
+                visibility: hidden;
+            }
+        }
+
+        .note {
+            visibility: hidden;
+            position: absolute;
+            width: 30px;
+            background-color: black;
+            animation: down linear none 2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="line1" class="line"></div>
+    <div id="line2" class="line"></div>
+    <div id="line3" class="line"></div>
+    <div id="line4" class="line"></div>
+    <div id="line5" class="line"></div>
+    <div id="line6" class="line"></div>
+
+    <script>
+        const lines = [
+            document.getElementById('line1'),
+            document.getElementById('line2'),
+            document.getElementById('line3'),
+            document.getElementById('line4'),
+            document.getElementById('line5'),
+            document.getElementById('line6'),
+        ];
+
+        const activeNotes = [null, null, null, null, null, null]; // 각 라인의 현재 활성화된 노트 상태 관리
+
+        // Note 생성 및 크기 증가 처리
+        function startNote(lineIndex) {
+            if (activeNotes[lineIndex]) return; // 이미 노트가 활성화되어 있다면 실행 안 함
+
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.style.height = `10px`;
+            note.style.top = `400px`; // Initial top position
+            lines[lineIndex].appendChild(note);
+
+            activeNotes[lineIndex] = {
+                element: note,
+                currentHeight: 10, // Current height of the note
+                interval: setInterval(() => {
+                    // Increase height and top position
+                    activeNotes[lineIndex].currentHeight += 10;
+                    note.style.height = `${activeNotes[lineIndex].currentHeight}px`;
+                    note.style.top = `${400 - activeNotes[lineIndex].currentHeight}px`; // Move upwards
+                   
+                    const animations = note.getAnimations();
+                    //
+                    for (let animation of animations) {
+                        const keyframes = animation.effect.getKeyframes();
+                        for (let keyframe of keyframes) {
+                            if (keyframe.top !== 0+'px') {
+                               
+                                if ( keyframe.offset == 0){
+                                    console.log(keyframe.top);
+                                }
+                               
+                            }
+                        }
+                    }
+                    return false; // No animation on 'top' found
+                    //
+
+
+                    if (activeNotes[lineIndex].currentHeight >= 400) {
+                        clearInterval(activeNotes[lineIndex].interval); // Stop growing when height reaches 400px
+                    }
+                }, 50)
+            };
+        }
+
+        // Note 크기 증가 중지 및 상태 초기화
+        function stopNote(lineIndex) {
+            if (!activeNotes[lineIndex]) return; // 활성화된 노트가 없으면 실행 안 함
+
+            clearInterval(activeNotes[lineIndex].interval);
+            activeNotes[lineIndex] = null; // 상태 초기화
+        }
+
+        // 키 이벤트 핸들러
+        document.body.addEventListener('keydown', (e) => {
+            if (!e.repeat) {
+                e.preventDefault(); // 기본 동작 방지
+                if (e.code === 'KeyA') startNote(0);
+                if (e.code === 'KeyS') startNote(1);
+                if (e.code === 'KeyD') startNote(2);
+                if (e.code === 'KeyL') startNote(3);
+                if (e.code === 'Semicolon') startNote(4);
+                if (e.code === 'Quote') startNote(5);
+            }
+        });
+
+        document.body.addEventListener('keyup', (e) => {
+            e.preventDefault(); // 기본 동작 방지
+            if (e.code === 'KeyA') stopNote(0);
+            if (e.code === 'KeyS') stopNote(1);
+            if (e.code === 'KeyD') stopNote(2);
+            if (e.code === 'KeyL') stopNote(3);
+            if (e.code === 'Semicolon') stopNote(4);
+            if (e.code === 'Quote') stopNote(5);
+        });
+    </script>
+</body>
+
+</html>

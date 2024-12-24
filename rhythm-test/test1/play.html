@@ -5,21 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.3/Tone.js"></script>
     <style>
         #root {
             width: 300px;
             height: 600px;
             border: 1px solid #ccc;
             display: flex;
+            position: relative;
         }
 
         .line {
             border: 1px solid #eee;
             width: 50px;
             position: relative;
+            top: 0;
+            left: 0;
 
         }
+
 
         .note {
             animation: down linear 2s none;
@@ -29,6 +32,10 @@
             background-color: black;
             width: 50px;
             height: 20px;
+        }
+
+        .down {
+            animation: down linear infinite 2s;
         }
 
         @keyframes down {
@@ -42,17 +49,26 @@
                 visibility: hidden;
             }
         }
+
+        #hr {
+            position: absolute;
+            border: 3px solid #ccc;
+            width: 300px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
 <body>
     <div id="root">
+        <div id="hr"></div>
         <div class="line" id="line-a"></div>
         <div class="line" id="line-s"></div>
         <div class="line" id="line-d"></div>
         <div class="line" id="line-l"></div>
         <div class="line" id="line-;"></div>
         <div class="line" id="line-'"></div>
+
     </div>
     <div>
         <audio id="music" controls src="BrainFlow.mp3">
@@ -61,79 +77,110 @@
     </div>
     <script>
         let track = [
-            { "timeStamp": 0, "key": "a" },
-            { "timeStamp": 1649.6999999284744, "key": "l" },
-            { "timeStamp": 2052.7999999523163, "key": "s" },
-            { "timeStamp": 2192.5999999046326, "key": "d" },
-            { "timeStamp": 2507.5, "key": "l" },
-            { "timeStamp": 2956.1999999284744, "key": "d" },
-            { "timeStamp": 3364.6999999284744, "key": "l" },
-            { "timeStamp": 3777.899999976158, "key": "a" },
-            { "timeStamp": 3982.2999999523163, "key": "s" },
-            { "timeStamp": 4181.799999952316, "key": "d" },
-            { "timeStamp": 4373.299999952316, "key": "l" },
-            { "timeStamp": 4667.599999904633, "key": ";" },
-            { "timeStamp": 4874.899999976158, "key": "l" },
-            { "timeStamp": 5119.299999952316, "key": "a" },
-            { "timeStamp": 5328.399999976158, "key": "s" },
-            { "timeStamp": 5532.5, "key": "d" },
-            { "timeStamp": 5751.299999952316, "key": "l" },
-            { "timeStamp": 5963.899999976158, "key": ";" },
-            { "timeStamp": 6354.899999976158, "key": "a" },
-            { "timeStamp": 6778.5, "key": "s" },
-            { "timeStamp": 6988.599999904633, "key": "d" },
-            { "timeStamp": 7200, "key": "l" },
-            { "timeStamp": 7401.899999976158, "key": "'" },
-            { "timeStamp": 7627.599999904633, "key": ";" },
-            { "timeStamp": 7802.099999904633, "key": "l" },
-            { "timeStamp": 8057, "key": "s" },
-            { "timeStamp": 8295.699999928474, "key": "d" },
-            { "timeStamp": 8525.899999976158, "key": "l" },
-            { "timeStamp": 8746.199999928474, "key": "a" },
-            { "timeStamp": 8937.899999976158, "key": "s" },
-            { "timeStamp": 9134.899999976158, "key": "d" },
-            { "timeStamp": 9352.799999952316, "key": "l" },
-            { "timeStamp": 9798.199999928474, "key": "a" },
-            { "timeStamp": 10233, "key": "s" },
-            { "timeStamp": 10429.5, "key": "d" },
-            { "timeStamp": 10653.299999952316, "key": "l" },
-            { "timeStamp": 10814.5, "key": ";" },
-            { "timeStamp": 11354.899999976158, "key": "a" },
-            { "timeStamp": 11978, "key": "s" },
-            { "timeStamp": 12823.5, "key": "d" },
-            { "timeStamp": 13710, "key": "a" },
-            { "timeStamp": 13718.799999952316, "key": "l" },
-            { "timeStamp": 14072.899999976158, "key": "s" },
-            { "timeStamp": 14097.199999928474, "key": ";" },
-            { "timeStamp": 14496, "key": "d" },
-            { "timeStamp": 14503.599999904633, "key": "l" },
-            { "timeStamp": 14908.299999952316, "key": "a" },
-            { "timeStamp": 14913, "key": "'" },
-            { "timeStamp": 15332.799999952316, "key": "s" },
-            { "timeStamp": 15347, "key": ";" },
-            { "timeStamp": 15726.599999904633, "key": "d" },
-            { "timeStamp": 15733.199999928474, "key": "l" },
-            { "timeStamp": 16158.899999976158, "key": ";" },
-            { "timeStamp": 16169.399999976158, "key": "s" },
-            { "timeStamp": 16655.599999904633, "key": "a" },
-            { "timeStamp": 16658.099999904633, "key": "l" },
-            { "timeStamp": 17084.699999928474, "key": "'" },
-            { "timeStamp": 17096.099999904633, "key": "s" },
-            { "timeStamp": 17492.299999952316, "key": "d" },
-            { "timeStamp": 17498, "key": ";" },
-            { "timeStamp": 17894.899999976158, "key": "s" },
-            { "timeStamp": 17898.299999952316, "key": "l" },
-            { "timeStamp": 18313.099999904633, "key": ";" },
-            { "timeStamp": 18314.099999904633, "key": "a" },
+            { "timeStamp": 0, "key": "l" },
+            { "timeStamp": 398.29999999701977, "key": "a" },
+            { "timeStamp": 606.1000000089407, "key": "s" },
+            { "timeStamp": 844.2999999970198, "key": "d" },
+            { "timeStamp": 1077.7999999970198, "key": "l" },
+            { "timeStamp": 1317.5, "key": ";" },
+            { "timeStamp": 1525.7000000029802, "key": "l" },
+            { "timeStamp": 1760.6000000089407, "key": "s" },
+            { "timeStamp": 1979.5, "key": "d" },
+            { "timeStamp": 2186, "key": "l" },
+            { "timeStamp": 2399.1000000089407, "key": "s" },
+            { "timeStamp": 2641.2999999970198, "key": "d" },
+            { "timeStamp": 3061.1000000089407, "key": "l" },
+            { "timeStamp": 3487.1000000089407, "key": "a" },
+            { "timeStamp": 3678, "key": "d" },
+            { "timeStamp": 3911.4000000059605, "key": "l" },
+            { "timeStamp": 4111.20000000298, "key": "s" },
+            { "timeStamp": 4353.20000000298, "key": "d" },
+            { "timeStamp": 4561.9000000059605, "key": "l" },
+            { "timeStamp": 4782.70000000298, "key": ";" },
+            { "timeStamp": 4987.600000008941, "key": "l" },
+            { "timeStamp": 5216, "key": "a" },
+            { "timeStamp": 5402.9000000059605, "key": "d" },
+            { "timeStamp": 5610.70000000298, "key": "l" },
+            { "timeStamp": 5809.29999999702, "key": "s" },
+            { "timeStamp": 6078.5, "key": "l" },
+            { "timeStamp": 6510.9000000059605, "key": "d" },
+            { "timeStamp": 6922.100000008941, "key": "l" },
+            { "timeStamp": 7328.5, "key": "a" },
+            { "timeStamp": 7541, "key": "s" },
+            { "timeStamp": 7768, "key": "d" },
+            { "timeStamp": 7969.29999999702, "key": "l" },
+            { "timeStamp": 8190.29999999702, "key": ";" },
+            { "timeStamp": 8418.29999999702, "key": "l" },
+            { "timeStamp": 8633.20000000298, "key": "a" },
+            { "timeStamp": 9067.20000000298, "key": "l" },
+            { "timeStamp": 9479.20000000298, "key": "s" },
+            { "timeStamp": 9939, "key": "d" },
+            { "timeStamp": 10365.20000000298, "key": "'" },
+            { "timeStamp": 10377.90000000596, "key": ";" },
+            { "timeStamp": 10589.79999999702, "key": "l" },
+            { "timeStamp": 10796.29999999702, "key": ";" },
+            { "timeStamp": 10979, "key": "l" },
+            { "timeStamp": 11432, "key": "a" },
+            { "timeStamp": 11632.5, "key": "d" },
+            { "timeStamp": 11884.29999999702, "key": "s" },
+            { "timeStamp": 12105.5, "key": "d" },
+            { "timeStamp": 12505.10000000894, "key": "l" },
+            { "timeStamp": 12893.5, "key": "a" },
+            { "timeStamp": 13286.79999999702, "key": "s" },
+            { "timeStamp": 13502.10000000894, "key": "d" },
+            { "timeStamp": 13714.10000000894, "key": "l" },
+            { "timeStamp": 13923.70000000298, "key": "a" },
+            { "timeStamp": 14171.10000000894, "key": "d" },
+            { "timeStamp": 14376.20000000298, "key": "l" },
+            { "timeStamp": 14626.5, "key": "s" },
+            { "timeStamp": 14854.20000000298, "key": "d" },
+            { "timeStamp": 15047.20000000298, "key": ";" },
+            { "timeStamp": 15273.5, "key": "'" },
+            { "timeStamp": 15494, "key": "a" },
+            { "timeStamp": 15691.10000000894, "key": ";" },
+            { "timeStamp": 15917.20000000298, "key": "d" },
+            { "timeStamp": 16119.20000000298, "key": "l" },
+            { "timeStamp": 16337.70000000298, "key": "s" },
+            { "timeStamp": 16578, "key": "d" },
+            { "timeStamp": 16764.5, "key": "l" },
+            { "timeStamp": 16984.5, "key": ";" },
+            { "timeStamp": 17207.20000000298, "key": "a" },
+            { "timeStamp": 17210.29999999702, "key": "l" },
+            { "timeStamp": 17426.5, "key": "'" },
+            { "timeStamp": 17635.20000000298, "key": ";" },
+            { "timeStamp": 17853.29999999702, "key": "l" },
+            { "timeStamp": 18047.29999999702, "key": "s" },
+            { "timeStamp": 18048.40000000596, "key": ";" },
+            { "timeStamp": 18268.29999999702, "key": "l" },
+            { "timeStamp": 18481.20000000298, "key": "'" },
+            { "timeStamp": 18688.70000000298, "key": ";" },
+            { "timeStamp": 18905.29999999702, "key": "l" },
+            { "timeStamp": 18917, "key": "d" },
+            { "timeStamp": 19113.20000000298, "key": ";" },
+            { "timeStamp": 19317.5, "key": "'" },
+            { "timeStamp": 19529.40000000596, "key": ";" },
+            { "timeStamp": 19757.20000000298, "key": "l" },
+            { "timeStamp": 19975.20000000298, "key": ";" },
+            { "timeStamp": 20181.40000000596, "key": "'" },
+            { "timeStamp": 20405.20000000298, "key": "l" },
+            { "timeStamp": 20643.29999999702, "key": "a" },
+            { "timeStamp": 20648.90000000596, "key": ";" },
+            { "timeStamp": 20867.5, "key": "l" },
+            { "timeStamp": 21082.60000000894, "key": ";" },
+            { "timeStamp": 23132.29999999702, "key": "Control" },
+            { "timeStamp": 23313.60000000894, "key": "a" },
+            { "timeStamp": 23638.40000000596, "key": "c" },
         ]
-        const sound = new Tone.Player("sound.mp3").toDestination();
         let startTime = 0;
         let trackPlay = false;
         document.body.addEventListener('keydown', function (e) {
-            sound.start();
+
             console.log(startTime);
             if (!trackPlay) {
                 trackPlay = true;
+
+                const hr = document.getElementById("hr");
+                hr.className = 'down';
                 for (let i = 0; i < track.length; i++) {
                     createNote(track[i].key, Math.floor(track[i].timeStamp / 100) * 100);
                 }
