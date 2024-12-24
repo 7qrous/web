@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>midi-test-2</title>
+    <style>
+        .line {
+            width: 30px;
+            height: 400px;
+            border: 1px solid black;
+            position: relative;
+            transform: rotateX(180deg);
+
+        }
+
+        body {
+            display: flex;
+        }
+
+        #line {}
+
+        #line2 {}
+
+        @keyframes down {
+            0% {
+                top: 400px;
+                visibility: visible;
+            }
+
+            100% {
+                top: 0px;
+                visibility: hidden;
+            }
+        }
+
+        .note {
+            visibility: hidden;
+            position: absolute;
+            width: 30px;
+            background-color: black;
+            animation: down linear none 4s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="line" class="line">
+
+    </div>
+    <div id="line2" class="line">
+
+    </div>
+    <script>
+        let lineArray = [document.getElementById('line'), document.getElementById('line2')]
+        let intervalIdArray = [0, 0];
+        let intervalTempArray = [[], []];
+        let noteHeightArray = [10, 10]
+        document.body.addEventListener('keydown', function (e) {
+            if (!e.repeat) {
+                if (e.key == 'a') {
+
+                    let note = document.createElement('div');
+                    note.className = 'note';
+                    note.style.height = `${noteHeightArray[0]}px`;
+                    lineArray[0].appendChild(note);
+                    intervalIdArray[0] = setInterval(function () {
+                        noteHeightArray[0] += 10;
+                        note.style = `height:${noteHeightArray[0]}px`;
+                    }, 100);
+                    intervalTempArray[0].push(intervalIdArray[0]);
+                } else if (e.key == 's') {
+
+                    let note = document.createElement('div');
+                    note.className = 'note';
+                    note.style.height = `${noteHeightArray[1]}px`;
+                    lineArray[1].appendChild(note);
+                    intervalIdArray[1] = setInterval(function () {
+                        noteHeightArray[1] += 10;
+                        note.style = `height:${noteHeightArray[1]}px`;
+                    }, 100);
+                    intervalTempArray[1].push(intervalIdArray[1]);
+                }
+                console.log(intervalTempArray)
+            }
+        });
+        document.body.addEventListener('keyup', function (e) {
+            if (e.key == 'a') {
+                clearInterval(intervalTempArray[intervalIdArray[0]]);
+                intervalIdArray[0]++;
+            } else if (e.key == 's') {
+                clearInterval(intervalTempArray[intervalIdArray[1]]);
+                intervalIdArray[1]++;
+            }
+        })
+    </script>
+</body>
+
+</html>
